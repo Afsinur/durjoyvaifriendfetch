@@ -161,10 +161,10 @@ body {
   font-size: 0.8rem;
   color: #565656;
 }
-@media screen and (max-width: 425px) {
+@media screen and (max-width: 767px) {
   .app .modal .details-container {
     width: 98%;
-    height: 90vh;
+    max-height: 90vh;
     overflow-x: hidden;
   }
   .app .modal .details-container .close-icon-container {

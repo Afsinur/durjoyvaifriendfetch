@@ -202,9 +202,9 @@ body {
         }
       }
 
-      @media screen and (max-width: 425px) {
+      @media screen and (max-width: 767px) {
         width: 98%;
-        height: 90vh;
+        max-height: 90vh;
         overflow-x: hidden;
 
         .close-icon-container {
