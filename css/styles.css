@@ -23,14 +23,17 @@ body {
   align-items: center;
 }
 
+.app .sort-by-date,
 .app .show-more {
-  display: none;
   margin: 15px;
   padding: 8px 16px;
   cursor: pointer;
   font-size: 0.96rem;
   font-weight: 500;
   color: #404040;
+}
+.app .show-more {
+  display: none;
 }
 .app .modal {
   display: none;

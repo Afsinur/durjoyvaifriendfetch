@@ -27,9 +27,8 @@ body {
 }
 
 .app {
+  .sort-by-date,
   .show-more {
-    display: none;
-
     margin: 15px;
     padding: 8px 16px;
     cursor: pointer;
@@ -38,6 +37,10 @@ body {
     font-weight: 500;
 
     color: #404040;
+  }
+
+  .show-more {
+    display: none;
   }
 
   .modal {

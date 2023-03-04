@@ -9,7 +9,7 @@ const qs = (sl) => document.querySelectorAll(sl);
 const css = (sl, obj) => Object.assign(sl.style, obj);
 const on = (sl, e, f) => sl.addEventListener(e, f);
 
-let incBy = 12; //edit this to show this number of card data at a time.
+let incBy = 2; //edit this to show this number of card data at a time.
 let showFrom = 0;
 let showMax = incBy;
 let localDb = [];
@@ -47,17 +47,7 @@ const cardTemplate = (itm) => {
   localDb = tools;
   console.log(tools);
 
-  tools.forEach((itm, i) => {
-    if (i < showMax) {
-      qs(".data-div")[0].innerHTML += cardTemplate(itm);
-    }
-  });
-
-  if (tools.length > showMax) {
-    css(qs(".show-more")[0], { display: "inherit" });
-  }
-
-  setupPagination();
+  initShowCard(tools);
 })();
 
 on(qs(".show-more")[0], "click", () => {
@@ -80,6 +70,24 @@ on(qs(".fa-window-close")[0], "click", () => {
     display: "none",
   });
 });
+
+on(qs(".sort-by-date")[0], "click", () => {
+  sortByDate();
+});
+
+function initShowCard(arr) {
+  arr.forEach((itm, i) => {
+    if (i < showMax) {
+      qs(".data-div")[0].innerHTML += cardTemplate(itm);
+    }
+  });
+
+  if (arr.length > showMax) {
+    css(qs(".show-more")[0], { display: "inherit" });
+  }
+
+  setupPagination();
+}
 
 function setupPagination() {
   showFrom += incBy;
@@ -186,4 +194,52 @@ function setupModals() {
       });
     });
   });
+}
+
+function resetPagination() {
+  qs(".data-div")[0].innerHTML = ``;
+  showFrom = 0;
+  showMax = incBy;
+  initShowCard(localDb);
+}
+
+function sortByDate() {
+  let localDbCopy = localDb.map((itm) => itm);
+
+  let sortByDayArr = localDbCopy.sort((a, b) => {
+    let aCom = a.published_in.split("/")[0];
+    let bCom = b.published_in.split("/")[0];
+
+    if (Number(bCom) > Number(aCom)) {
+      return 1;
+    } else {
+      return -1;
+    }
+  });
+
+  let sortByMonthArr = sortByDayArr.sort((a, b) => {
+    let aCom = a.published_in.split("/")[1];
+    let bCom = b.published_in.split("/")[1];
+
+    if (Number(bCom) > Number(aCom)) {
+      return 1;
+    } else {
+      return -1;
+    }
+  });
+
+  let sortByYearArr = sortByMonthArr.sort((a, b) => {
+    let aCom = a.published_in.split("/")[2];
+    let bCom = b.published_in.split("/")[2];
+
+    if (Number(bCom) > Number(aCom)) {
+      return 1;
+    } else {
+      return -1;
+    }
+  });
+
+  localDb = sortByYearArr;
+
+  resetPagination();
 }
