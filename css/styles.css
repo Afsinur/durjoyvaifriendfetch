@@ -68,7 +68,6 @@ body {
 }
 .app .modal .details-container .sub-details {
   display: none;
-  flex-wrap: wrap;
 }
 .app .modal .details-container .sub-details > div {
   width: 50%;
@@ -170,6 +169,9 @@ body {
   }
   .app .modal .details-container .close-icon-container {
     transform: translate(-10%, 100%);
+  }
+  .app .modal .details-container .sub-details {
+    flex-wrap: wrap;
   }
   .app .modal .details-container .sub-details > div {
     width: 100%;

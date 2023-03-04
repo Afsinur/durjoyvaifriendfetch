@@ -84,7 +84,6 @@ body {
 
       .sub-details {
         display: none;
-        flex-wrap: wrap;
 
         > div {
           width: 50%;
@@ -213,6 +212,8 @@ body {
         }
 
         .sub-details {
+          flex-wrap: wrap;
+
           > div {
             width: 100%;
           }
