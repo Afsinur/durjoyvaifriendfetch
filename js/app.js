@@ -9,16 +9,13 @@ const qs = (sl) => document.querySelectorAll(sl);
 const css = (sl, obj) => Object.assign(sl.style, obj);
 const on = (sl, e, f) => sl.addEventListener(e, f);
 
-let incBy = 7; //edit this to show this number of card data at a time.
+let incBy = 12; //edit this to show this number of card data at a time.
 let showFrom = 0;
 let showMax = incBy;
 let localDb = [];
 
 const cardTemplate = (itm) => {
   let featuresList = itm.features.map((str) => `<li>${str}</li>`);
-  let linksList = itm.links.map(
-    ({ name, url }) => `<li> <a href="${url}">${name}</a> </li>`
-  );
 
   return `
     <div class="app-card">
@@ -29,7 +26,14 @@ const cardTemplate = (itm) => {
         <hr>
 
         <h2>${itm.name}</h2>
-        <ul class="links-ul">${linksList.join("")}</ul>
+        <div class="date-container">
+          <div>
+            <i class="fa fa-calendar"></i>
+            <p>${itm.published_in}</p>
+          </div>
+
+          <div><i class="fa fa-arrow-right" data-id="${itm.id}"></i></div>
+        </div>  
     </div>
     `;
 };
@@ -41,6 +45,7 @@ const cardTemplate = (itm) => {
   );
   let { tools } = data;
   localDb = tools;
+  console.log(tools);
 
   tools.forEach((itm, i) => {
     if (i < showMax) {
@@ -66,13 +71,119 @@ on(qs(".show-more")[0], "click", () => {
   willBtnRemain();
 });
 
+on(qs(".fa-window-close")[0], "click", () => {
+  css(qs(".modal")[0], {
+    display: "none",
+  });
+
+  css(qs(".sub-details")[0], {
+    display: "none",
+  });
+});
+
 function setupPagination() {
   showFrom += incBy;
   showMax += incBy;
+
+  setupModals();
 }
 
 function willBtnRemain() {
   if (showFrom >= localDb.length) {
     css(qs(".show-more")[0], { display: "none" });
   }
+}
+
+function setupModals() {
+  qs(".fa-arrow-right").forEach((itm) => {
+    on(itm, "click", async () => {
+      css(qs(".modal")[0], {
+        display: "flex",
+      });
+
+      css(qs(".details-loading")[0], {
+        display: "flex",
+      });
+
+      let link_ = `https://openapi.programming-hero.com/api/ai/tool/${itm.dataset.id}`;
+
+      let { data } = await fetchMe(link_);
+      console.log(data);
+      let {
+        description,
+        pricing,
+        features,
+        integrations,
+        image_link,
+        accuracy,
+        input_output_examples,
+      } = data;
+
+      qs(".top-left-h4")[0].innerHTML = description;
+
+      if (pricing) {
+        qs(".plan-left .plan-span")[0].innerHTML = pricing[0].plan;
+        qs(".plan-left .price-span")[0].innerHTML = pricing[0].price;
+
+        qs(".plan-middle .plan-span")[0].innerHTML = pricing[1].plan;
+        qs(".plan-middle .price-span")[0].innerHTML = pricing[1].price;
+
+        qs(".plan-right .plan-span")[0].innerHTML = pricing[2].plan;
+        qs(".plan-right .price-span")[0].innerHTML = pricing[2].price;
+      } else {
+        qs(".plan-left .plan-span")[0].innerHTML = "Free of Cost/";
+        qs(".plan-left .price-span")[0].innerHTML = "Basic";
+
+        qs(".plan-middle .plan-span")[0].innerHTML = "Free Of Cost/";
+        qs(".plan-middle .price-span")[0].innerHTML = "Pro";
+
+        qs(".plan-right .plan-span")[0].innerHTML = "Free of Cost /";
+        qs(".plan-right .price-span")[0].innerHTML = "Enterprise";
+      }
+
+      let featuresArr = Object.values(features);
+      let featuresArrLi = featuresArr
+        .map(({ feature_name }) => `<li>${feature_name}</li>`)
+        .join("");
+      qs(".modal-features-ul")[0].innerHTML = featuresArrLi;
+
+      if (integrations) {
+        let integrationsArrLi = integrations
+          .map((itm) => `<li>${itm}</li>`)
+          .join("");
+        qs(".modal-integrations-ul")[0].innerHTML = integrationsArrLi;
+      } else {
+        qs(
+          ".modal-integrations-ul"
+        )[0].innerHTML = `<li class="integration-empty-li">No data Found</li>`;
+      }
+
+      qs(".right-img-container img")[0].src = image_link[0];
+
+      qs(".accuracy-span span")[0].innerHTML = accuracy.score * 100;
+
+      if (input_output_examples) {
+        let [inpOutObj] = input_output_examples;
+        let { input, output } = inpOutObj;
+
+        qs(".bottom-img-details-container h4")[0].innerHTML = input;
+        qs(".bottom-img-details-container p")[0].innerHTML = output;
+      } else {
+        qs(
+          ".bottom-img-details-container h4"
+        )[0].innerHTML = `Can you give any example?`;
+        qs(
+          ".bottom-img-details-container p"
+        )[0].innerHTML = `No! Not Yet! Take a break!!!`;
+      }
+
+      css(qs(".sub-details")[0], {
+        display: "flex",
+      });
+
+      css(qs(".details-loading")[0], {
+        display: "none",
+      });
+    });
+  });
 }

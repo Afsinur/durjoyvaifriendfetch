@@ -39,12 +39,193 @@ body {
 
     color: #404040;
   }
+
+  .modal {
+    display: none;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.2);
+
+    align-items: center;
+    justify-content: center;
+
+    .details-container {
+      display: flex;
+      flex-direction: column;
+
+      background-color: #fff;
+      width: 70%;
+
+      padding: 15px;
+      border-radius: 16px;
+
+      .close-icon-container {
+        display: flex;
+        justify-content: flex-end;
+
+        .fa-window-close {
+          color: #ff5656;
+          font-size: 1.6rem;
+          cursor: pointer;
+
+          transform: translate(100%, -120%);
+        }
+      }
+
+      .details-loading {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+      }
+
+      .sub-details {
+        display: none;
+        flex-wrap: wrap;
+
+        > div {
+          width: 50%;
+          padding: 2px;
+          border-radius: 16px;
+          margin: 4px;
+          padding: 8px;
+        }
+
+        .left-details {
+          background-color: rgba(235, 87, 87, 0.05);
+          border: 1px solid #eb5757;
+
+          h4 {
+            color: #404040;
+          }
+
+          .plans-container {
+            display: flex;
+            justify-content: space-between;
+            margin: 15px 0;
+
+            > div {
+              width: 30%;
+              font-size: 0.6rem;
+              font-weight: 600;
+              text-align: center;
+
+              padding: 15px;
+              border-radius: 16px;
+
+              background-color: #fff;
+            }
+
+            .plan-left {
+              color: #03a30a;
+            }
+
+            .plan-middle {
+              color: #f28927;
+            }
+
+            .plan-right {
+              color: #eb5757;
+            }
+          }
+
+          .ul-container {
+            display: flex;
+            justify-content: space-between;
+
+            ul {
+              padding-left: 20px;
+              padding-top: 8px;
+            }
+
+            li {
+              font-size: 0.7rem;
+              color: #565656;
+            }
+
+            .integration-empty-li {
+              list-style: none;
+              font-size: 0.7rem;
+              color: #565656;
+            }
+          }
+        }
+
+        .right-details {
+          background-color: #ffffff;
+          border: 1px solid #e7e7e7;
+          display: flex;
+          flex-direction: column;
+
+          .right-img-container {
+            display: flex;
+            flex-direction: column;
+
+            .accuracy-span {
+              align-self: flex-end;
+
+              font-size: 0.6rem;
+              color: #fff;
+              background-color: #eb5757;
+              padding: 6px;
+              border-radius: 6px;
+
+              transform: translate(-10%, 10%);
+              z-index: 2;
+            }
+
+            img {
+              width: 100%;
+              border-radius: 16px;
+
+              transform: translate(0%, -26px);
+              z-index: 1;
+            }
+          }
+
+          .bottom-img-details-container {
+            text-align: center;
+
+            h4 {
+              color: #404040;
+            }
+
+            p {
+              margin-top: 6px;
+              margin-bottom: 6px;
+              font-size: 0.8rem;
+              color: #565656;
+            }
+          }
+        }
+      }
+
+      @media screen and (max-width: 425px) {
+        width: 98%;
+        height: 90vh;
+        overflow-x: hidden;
+
+        .close-icon-container {
+          transform: translate(-10%, 100%);
+        }
+
+        .sub-details {
+          > div {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
 }
 
 .app-card {
   width: 300px;
   padding: 15px;
-  margin: 15px;
+  margin: 15px 0;
 
   border-radius: 10px;
   background-color: #ebebeb;
@@ -77,8 +258,30 @@ body {
     list-style: decimal;
   }
 
-  .links-ul {
-    padding-left: 4px;
-    list-style: none;
+  .date-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 10px;
+
+    div {
+      display: flex;
+      align-items: center;
+    }
+
+    i,
+    p {
+      color: #565656;
+      font-size: 0.8rem;
+    }
+
+    i {
+      margin-right: 5px;
+    }
+
+    .fa-arrow-right {
+      cursor: pointer;
+      color: #ff5656;
+    }
   }
 }
