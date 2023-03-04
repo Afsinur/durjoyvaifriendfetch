@@ -9,7 +9,7 @@ const qs = (sl) => document.querySelectorAll(sl);
 const css = (sl, obj) => Object.assign(sl.style, obj);
 const on = (sl, e, f) => sl.addEventListener(e, f);
 
-let incBy = 2;
+let incBy = 2; //edit this to show this number of card data at a time.
 let showFrom = 0;
 let showMax = incBy;
 let localDb = [];
