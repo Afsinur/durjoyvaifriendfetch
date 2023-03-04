@@ -9,7 +9,7 @@ const qs = (sl) => document.querySelectorAll(sl);
 const css = (sl, obj) => Object.assign(sl.style, obj);
 const on = (sl, e, f) => sl.addEventListener(e, f);
 
-let incBy = 2; //edit this to show this number of card data at a time.
+let incBy = 3; //edit this to show this number of card data at a time.
 let showFrom = 0;
 let showMax = incBy;
 let localDb = [];
@@ -72,7 +72,7 @@ function setupPagination() {
 }
 
 function willBtnRemain() {
-  if (showMax == localDb.length) {
+  if (showFrom == localDb.length) {
     css(qs(".show-more")[0], { display: "none" });
   }
 }
